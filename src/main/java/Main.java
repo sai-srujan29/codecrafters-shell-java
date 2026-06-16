@@ -7,7 +7,7 @@ public class Main {
          while (true) { 
             System.out.print("$ ");
             String n = sc.nextLine();
-            if(n.equals("echo")) {
+            if(n.startsWith("echo")) {
                 System.out.println("n ");
             }
             System.out.println(n + ": command not found");
