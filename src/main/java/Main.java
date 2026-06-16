@@ -8,14 +8,14 @@ public class Main {
             System.out.print("$ ");
             String n = sc.nextLine();
 
-            if (input.equals("exit 0")) {
+            if (n.equals("exit")) {
                 break;
             }
 
             else if(n.startsWith("echo")) {
                 System.out.println(n.substring(5));
             }
-            
+
             else {
                System.out.println(n + ": command not found");
             }
