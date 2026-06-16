@@ -7,9 +7,15 @@ public class Main {
          while (true) { 
             System.out.print("$ ");
             String n = sc.nextLine();
-            if(n.startsWith("echo")) {
+
+            if (input.equals("exit 0")) {
+                break;
+            }
+
+            else if(n.startsWith("echo")) {
                 System.out.println(n.substring(5));
             }
+            
             else {
                System.out.println(n + ": command not found");
             }
