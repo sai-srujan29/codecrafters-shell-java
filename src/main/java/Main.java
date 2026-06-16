@@ -5,6 +5,6 @@ public class Main {
          Scanner sc = new Scanner(System.in);
          System.out.print("$ ");
          String n = sc.nextLine();
-         System.out.println("n: command not found");
+         System.out.println(n + ": command not found");
     }
 }
