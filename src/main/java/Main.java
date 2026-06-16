@@ -13,7 +13,7 @@ public class Main {
             System.out.print("$ ");
             String n = sc.nextLine();
 
-            if (n.equals("exit 0")) {
+            if (n.startsWith("exit")) {
                 break;
             }
 
