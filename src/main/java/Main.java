@@ -8,9 +8,12 @@ public class Main {
             System.out.print("$ ");
             String n = sc.nextLine();
             if(n.startsWith("echo")) {
-                System.out.println("n ");
+                System.out.println(n.substring(5));
             }
-            System.out.println(n + ": command not found");
+            else {
+               System.out.println(n + ": command not found");
+            }
+            
          }
     }
 }
