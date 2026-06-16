@@ -8,7 +8,7 @@ public class Main {
             System.out.print("$ ");
             String n = sc.nextLine();
             if(n.equals("echo")) {
-                System.out.println("n ");;
+                System.out.println("n ");
             }
             System.out.println(n + ": command not found");
          }
