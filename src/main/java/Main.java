@@ -1,6 +1,8 @@
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.Set;
+
 public class Main {
     public static void main(String[] args) throws Exception {
 
@@ -11,7 +13,7 @@ public class Main {
             System.out.print("$ ");
             String n = sc.nextLine();
 
-            if (n.equals("exit")) {
+            if (n.equals("exit 0")) {
                 break;
             }
 
@@ -47,8 +49,43 @@ public class Main {
             }
 
             else {
-               System.out.println(n + ": command not found");
+                String[] parts = n.split(" ");
+                String command = parts[0];
+
+                String path = System.getenv("PATH");
+                String[] dirs = path.split(":");
+
+                File executable = null;
+
+                for (int i = 0; i < dirs.length; i++) {
+                    File candidate = new File(dirs[i], command);
+
+                    if (candidate.exists() && candidate.canExecute()) {
+                        executable = candidate;
+                        break;
+                    }
+                }
+                if(executable != null) {
+                    ArrayList<String> al = new ArrayList<>();
+                    al.add(executable.getAbsolutePath());
+
+                    for(int i = 1; i < parts.length; i++) {
+                        al.add(parts[i]);
+                    }
+                    ProcessBuilder pb = new ProcessBuilder(al);
+                    pb.inheritIO();
+
+                    Process p = pb.start();
+                    p.waitFor();
+
+                }
+
+                else {
+                    System.out.println(n + ": command not found");
+                }
             }
+
+
             
         }
     }
