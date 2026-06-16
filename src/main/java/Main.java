@@ -67,7 +67,7 @@ public class Main {
                 }
                 if(executable != null) {
                     ArrayList<String> al = new ArrayList<>();
-                    al.add(executable.getAbsolutePath());
+                    al.add(command);
 
                     for(int i = 1; i < parts.length; i++) {
                         al.add(parts[i]);
