@@ -7,7 +7,7 @@ public class Main {
     public static void main(String[] args) throws Exception {
 
         Scanner sc = new Scanner(System.in);
-        Set<String> builtins = Set.of("echo", "exit", "type", "pwd");
+        Set<String> builtins = Set.of("echo", "exit", "type", "pwd", "cd");
 
          while (true) { 
             System.out.print("$ ");
@@ -22,6 +22,19 @@ public class Main {
             }
             else if (n.equals("pwd")) {
                 System.out.println(System.getProperty("user.dir"));
+            }
+
+            else if (n.startsWith("cd")) {
+                String currentDir = System.getProperty("user.dir");
+                String directory = n.substring(3);  
+                
+                File dir = new File(directory);
+                if(dir.exists() && dir.isDirectory()) {
+                    currentDir = dir.getAbsolutePath();
+                }
+                else {
+                    System.out.println("cd" + directory + ": No such file or directory");
+                }
             }
             
             else if(n.startsWith("type ")) {
