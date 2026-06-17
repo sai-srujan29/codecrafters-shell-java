@@ -20,17 +20,35 @@ public class Main {
 
             else if(n.startsWith("echo ")) {
                 String text = n.substring(5);
-                StringBuilder ans = new StringBuilder();
+
+                ArrayList<String> argsList = new ArrayList<>();
+                StringBuilder current = new StringBuilder();
+
+                boolean insideQuotes = false;
 
                 for(int i = 0; i < text.length(); i++) {
                     char ch = text.charAt(i);
 
                     if(ch != '\'') {
-                        ans.append(ch);
+                        insideQuotes = !insideQuotes;
                     }
+
+                    else if(ch == ' ' && !insideQuotes) {
+                        if(current.length() > 0) {
+                            argsList.add(current.toString());
+                            current.setLength(0);
+                        }
+                    }
+                    else {
+                        current.append(ch);
+                    }
+
+                }
+                if(current.length() > 0) {
+                    argsList.add(current.toString());
                 }
 
-                System.out.println(ans.toString());
+                System.out.println(String.join(" ", argsList));
             }
             else if (n.equals("pwd")) {
                 System.out.println(currentDir);
