@@ -27,9 +27,13 @@ public class Main {
 
             else if (n.startsWith("cd ")) {
    
-                String directory = n.substring(3);  
+                String directory = n.substring(3);
                 
-                File dir;
+                if(n.startsWith("~")) {
+                    currentDir = System.getenv("HOME");
+                }
+                else {
+                    File dir;
 
                 if(directory.startsWith("/")) {
                     dir = new File(directory);
@@ -44,6 +48,9 @@ public class Main {
                 else {
                     System.out.println("cd: " + directory + ": No such file or directory");
                 }
+            }
+                
+
             }
             
             else if(n.startsWith("type ")) {
