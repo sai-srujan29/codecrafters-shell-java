@@ -19,7 +19,18 @@ public class Main {
             }
 
             else if(n.startsWith("echo ")) {
-                System.out.println(n.substring(5));
+                String text = n.substring(5);
+                StringBuilder ans = new StringBuilder();
+
+                for(int i = 0; i < text.length(); i++) {
+                    char ch = text.charAt(i);
+
+                    if(ch != '\'') {
+                        ans.append(ch);
+                    }
+                }
+
+                System.out.println(ans.toString());
             }
             else if (n.equals("pwd")) {
                 System.out.println(currentDir);
