@@ -33,7 +33,7 @@ public class Main {
                     currentDir = dir.getAbsolutePath();
                 }
                 else {
-                    System.out.println("cd " + directory + ": No such file or directory");
+                    System.out.println("cd: " + directory + ": No such file or directory");
                 }
             }
             
