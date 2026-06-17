@@ -21,7 +21,7 @@ public class Main {
                 System.out.println(n.substring(5));
             }
             else if (n.equals("pwd")) {
-                System.out.println(System.getProperty("user.dir"));
+                System.out.println(currentDir);
             }
 
             else if (n.startsWith("cd ")) {
@@ -51,7 +51,7 @@ public class Main {
                     for(int i = 0; i < dirs.length; i++) {
                         File user = new File(dirs[i], command);
 
-                        if(user.exists() && user.canExecute()) {
+                        if(user.exists() &&     user.canExecute()) {
                             System.out.println(command + " is " + user.getAbsolutePath());
                             found = true;
                             break;
