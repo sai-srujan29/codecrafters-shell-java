@@ -7,7 +7,7 @@ public class Main {
     public static void main(String[] args) throws Exception {
 
         Scanner sc = new Scanner(System.in);
-        Set<String> builtins = Set.of("echo", "exit", "type");
+        Set<String> builtins = Set.of("echo", "exit", "type", "pwd");
 
          while (true) { 
             System.out.print("$ ");
@@ -19,6 +19,9 @@ public class Main {
 
             else if(n.startsWith("echo ")) {
                 System.out.println(n.substring(5));
+            }
+            else if (n.equals("pwd")) {
+                System.out.println(System.getProperty("user.dir"));
             }
             
             else if(n.startsWith("type ")) {
