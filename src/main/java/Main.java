@@ -4,6 +4,39 @@ import java.util.Scanner;
 import java.util.Set;
 
 public class Main {
+        public static ArrayList<String> parse(String text) {
+            ArrayList<String> argsList = new ArrayList<>();
+            StringBuilder current = new StringBuilder();
+
+            boolean insideQuotes = false;
+
+            for (int i = 0; i < text.length(); i++) {
+                char ch = text.charAt(i);
+
+            if (ch == '\'') {
+            insideQuotes = !insideQuotes;
+            }
+
+            else if (ch == ' ' && !insideQuotes) {
+
+            if (current.length() > 0) {
+                argsList.add(current.toString());
+                current.setLength(0);
+            }
+
+        }
+        else {
+            current.append(ch);
+        }
+    }
+
+    if (current.length() > 0) {
+        argsList.add(current.toString());
+    }
+
+    return argsList;
+    }
+
     public static void main(String[] args) throws Exception {
 
         Scanner sc = new Scanner(System.in);
@@ -18,38 +51,17 @@ public class Main {
                 break;
             }
 
-            else if(n.startsWith("echo ")) {
-                String text = n.substring(5);
+            else if (n.startsWith("echo ")) {
 
-                ArrayList<String> argsList = new ArrayList<>();
-                StringBuilder current = new StringBuilder();
+                ArrayList<String> parts = parse(n);
+                ArrayList<String> output = new ArrayList<>();
 
-                boolean insideQuotes = false;
-
-                for(int i = 0; i < text.length(); i++) {
-                    char ch = text.charAt(i);
-
-                    if(ch == '\'') {
-                        insideQuotes = !insideQuotes;
-                    }
-
-                    else if(ch == ' ' && !insideQuotes) {
-                        if(current.length() > 0) {
-                            argsList.add(current.toString());
-                            current.setLength(0);
-                        }
-                    }
-                    else {
-                        current.append(ch);
-                    }
-
-                }
-                if(current.length() > 0) {
-                    argsList.add(current.toString());
+                for (int i = 1; i < parts.size(); i++) {
+                    output.add(parts.get(i));
                 }
 
-                System.out.println(String.join(" ", argsList));
-            }
+    System.out.println(String.join(" ", output));
+}
             else if (n.equals("pwd")) {
                 System.out.println(currentDir);
             }
@@ -110,8 +122,8 @@ public class Main {
             }
 
             else {
-                String[] parts = n.split(" ");
-                String command = parts[0];
+                ArrayList<String> parts = parse(n);
+                String command = parts.get((0));
 
                 String path = System.getenv("PATH");
                 String[] dirs = path.split(":");
@@ -130,8 +142,8 @@ public class Main {
                     ArrayList<String> al = new ArrayList<>();
                     al.add(command);
 
-                    for(int i = 1; i < parts.length; i++) {
-                        al.add(parts[i]);
+                    for(int i = 1; i < parts.size(); i++) {
+                        al.add(parts.get(i));
                     }
                     ProcessBuilder pb = new ProcessBuilder(al);
                     pb.inheritIO();
