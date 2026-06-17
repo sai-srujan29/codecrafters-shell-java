@@ -29,7 +29,7 @@ public class Main {
    
                 String directory = n.substring(3);
                 
-                if(n.startsWith("~")) {
+                if(directory.startsWith("~")) {
                     currentDir = System.getenv("HOME");
                 }
                 else {
