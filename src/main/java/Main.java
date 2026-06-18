@@ -14,25 +14,33 @@ public class Main {
             for (int i = 0; i < text.length(); i++) {
                 char ch = text.charAt(i);
 
-            if (ch == '\'' && !insideDoubleQuotes) {
-            insideQuotes = !insideQuotes;
-            }
-            else if(ch == '"' && !insideQuotes) {
-                insideDoubleQuotes = !insideDoubleQuotes;
-            }
+                if(ch == '\\' && !insideQuotes && !insideDoubleQuotes) {
+                    i++;
+                    if(i < text.length()) {
+                        current.append(text.charAt(i));
+                    }
+                }
 
-            else if (ch == ' ' && !insideQuotes && !insideDoubleQuotes) {
+                else if (ch == '\'' && !insideDoubleQuotes) {
+                    insideQuotes = !insideQuotes;
+                }
 
-            if (current.length() > 0) {
-                argsList.add(current.toString());
-                current.setLength(0);
+                else if(ch == '"' && !insideQuotes) {
+                    insideDoubleQuotes = !insideDoubleQuotes;
+                }
+
+                else if (ch == ' ' && !insideQuotes && !insideDoubleQuotes) {
+
+                    if (current.length() > 0) {
+                        argsList.add(current.toString());
+                        current.setLength(0);
+                    }
+
+                }
+                else {
+                current.append(ch);
             }
-
         }
-        else {
-            current.append(ch);
-        }
-    }
 
     if (current.length() > 0) {
         argsList.add(current.toString());
