@@ -14,7 +14,7 @@ public class Main {
             for (int i = 0; i < text.length(); i++) {
                 char ch = text.charAt(i);
 
-            if (ch == '\'') {
+            if (ch == '\'' && !insideDoubleQuotes) {
             insideQuotes = !insideQuotes;
             }
             else if(ch == '"') {
