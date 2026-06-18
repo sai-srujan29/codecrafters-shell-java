@@ -17,7 +17,7 @@ public class Main {
             if (ch == '\'' && !insideDoubleQuotes) {
             insideQuotes = !insideQuotes;
             }
-            else if(ch == '"') {
+            else if(ch == '"' && !insideQuotes) {
                 insideDoubleQuotes = !insideDoubleQuotes;
             }
 
