@@ -9,6 +9,7 @@ public class Main {
             StringBuilder current = new StringBuilder();
 
             boolean insideQuotes = false;
+            boolean insideDoubleQuotes = false;
 
             for (int i = 0; i < text.length(); i++) {
                 char ch = text.charAt(i);
@@ -16,8 +17,11 @@ public class Main {
             if (ch == '\'') {
             insideQuotes = !insideQuotes;
             }
+            else if(ch == '"') {
+                insideDoubleQuotes = !insideDoubleQuotes;
+            }
 
-            else if (ch == ' ' && !insideQuotes) {
+            else if (ch == ' ' && !insideQuotes && !insideDoubleQuotes) {
 
             if (current.length() > 0) {
                 argsList.add(current.toString());
