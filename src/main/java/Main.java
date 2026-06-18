@@ -14,7 +14,24 @@ public class Main {
             for (int i = 0; i < text.length(); i++) {
                 char ch = text.charAt(i);
 
-                if(ch == '\\' && !insideQuotes && !insideDoubleQuotes) {
+                if(ch == '\\' && insideDoubleQuotes) {
+                    if(i+1 < text.length()) {
+                        char next = text.charAt(i+1);
+
+                        if(next == '"' || next == '\\') {
+                            current.append(next);
+                            i++;
+                        }
+                        else {
+                            current.append(ch);
+                        }
+                    }
+                    else {
+                        current.append(ch);
+                    }
+                }
+
+                else if(ch == '\\' && !insideQuotes && !insideDoubleQuotes) {
                     i++;
                     if(i < text.length()) {
                         current.append(text.charAt(i));
