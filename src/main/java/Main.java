@@ -147,15 +147,15 @@ public class Main {
 
             else if (command.startsWith("cd ")) {
    
-                String directory = command.substring(3);
+                String directory1 = command.substring(3);
                 
-                if(directory.startsWith("~")) {
+                if(directory1.startsWith("~")) {
                     currentDir = System.getenv("HOME");
                 }
                 else {
                     File dir;
 
-                if(directory.startsWith("/")) {
+                if(directory1.startsWith("/")) {
                     dir = new File(directory);
                 }
 
@@ -166,7 +166,7 @@ public class Main {
                     currentDir = dir.getCanonicalPath();
                 }
                 else {
-                    System.out.println("cd: " + directory + ": No such file or directory");
+                    System.out.println("cd: " + directory1 + ": No such file or directory");
                 }
             }
                 
