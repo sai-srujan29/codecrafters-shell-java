@@ -81,6 +81,30 @@ public class Main {
             String fileName = "";
             String result = "";
             boolean stderrRedirect = false;
+            String errorResult = "";
+   
+                String directory = command.substring(3);
+                
+                if(directory.startsWith("~")) {
+                    currentDir = System.getenv("HOME");
+                }
+                else {
+                    File dir;
+
+                if(directory.startsWith("/")) {
+                    dir = new File(directory);
+                }
+
+                else {
+                    dir = new File(currentDir, directory);
+                }
+                if(dir.exists() && dir.isDirectory()) {
+                    currentDir = dir.getCanonicalPath();
+                }
+                else {
+                   errorResult = "cd: " + directory + ": No such file or directory";
+                }
+            }
 
             if (n.startsWith("exit")) {
                 break;
