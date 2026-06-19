@@ -144,7 +144,7 @@ public class Main {
                     currentDir = dir.getCanonicalPath();
                 }
                 else {
-                    System.out.println("cd: " + directory + ": No such file or directory");
+                    errorResult = "cd: " + directory + ": No such file or directory";
                 }
             }
                 
@@ -173,7 +173,7 @@ public class Main {
                     }
 
                     if(!found) {
-                        result = command2 + ": not found";
+                        errorResult = command2 + ": not found";
                     }
                 }
             }
@@ -190,6 +190,20 @@ public class Main {
                 fw.write(System.lineSeparator());
                 fw.close();
             }
+        }
+
+        if (!errorResult.isEmpty()) {
+
+            if (stderrRedirect) {
+                FileWriter fw = new FileWriter(fileName);
+                fw.write(errorResult);
+                fw.write(System.lineSeparator());
+                fw.close();
+            } 
+            else {
+              System.err.println(errorResult);
+            }
+
         }
 
             else if (!command.startsWith("cd ")){
