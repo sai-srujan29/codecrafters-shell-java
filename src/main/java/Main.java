@@ -216,6 +216,7 @@ public class Main {
                     }
                     else {
                         pb.redirectOutput(new File(fileName));
+                        pb.redirectError(ProcessBuilder.Redirect.INHERIT);
                     }
         
                     Process p = pb.start();
