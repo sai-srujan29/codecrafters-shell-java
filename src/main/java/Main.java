@@ -211,6 +211,11 @@ public class Main {
             }
 
         }
+        else if (stderrRedirect && !fileName.isEmpty()) {
+            FileWriter fw = new FileWriter(fileName);
+            fw.close();
+        }
+        
 
         boolean isBuiltin = command.startsWith("echo ") || 
                             command.equals("pwd") || 
