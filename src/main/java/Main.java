@@ -80,13 +80,20 @@ public class Main {
             String command = n;
             String fileName = "";
             String result = "";
+            boolean stderrRedirect = false;
 
             if (n.startsWith("exit")) {
                 break;
             }
 
+            if(n.contains("2>")) {
+                String parts[] = n.split("2>");
+                command = parts[0].trim();
+                fileName = parts[1].trim(); 
+                stderrRedirect = true;               
+            }
 
-            if(n.contains("1>")) {
+            else if(n.contains("1>")) {
                 String parts[] = n.split("1>");
                 command = parts[0].trim();
                 fileName = parts[1].trim();
@@ -213,6 +220,9 @@ public class Main {
                     ProcessBuilder pb = new ProcessBuilder(al);
                     if(fileName.isEmpty()) {
                         pb.inheritIO();
+                    }
+                    else if(stderrRedirect) {
+                        pb.redirectError(new File(fileName));
                     }
                     else {
                         pb.redirectOutput(new File(fileName));
