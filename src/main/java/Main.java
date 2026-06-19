@@ -212,7 +212,12 @@ public class Main {
 
         }
 
-            else if (!command.startsWith("cd ")){
+        boolean isBuiltin = command.startsWith("echo ") || 
+                            command.equals("pwd") || 
+                            command.startsWith("cd ") || 
+                            command.startsWith("type ");
+
+             if (!isBuiltin){
                 ArrayList<String> parts = parse(command);
                 if (parts.isEmpty()) {
                     continue;
