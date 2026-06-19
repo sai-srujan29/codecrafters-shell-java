@@ -178,6 +178,7 @@ public class Main {
             else {
                 FileWriter fw = new FileWriter(fileName);
                 fw.write(result);
+                fw.write(System.lineSeparator());
                 fw.close();
             }
         }
