@@ -245,6 +245,7 @@ public class Main {
                     }
                     else if(stderrRedirect) {
                         pb.redirectError(new File(fileName));
+                        pb.redirectOutput(ProcessBuilder.Redirect.INHERIT);
                     }
                     else {
                         pb.redirectOutput(new File(fileName));
