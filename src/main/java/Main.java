@@ -1,4 +1,5 @@
 import java.io.File;
+import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.Set;
@@ -72,32 +73,50 @@ public class Main {
         Set<String> builtins = Set.of("echo", "exit", "type", "pwd", "cd");
         String currentDir = System.getProperty("user.dir");
 
+
          while (true) { 
             System.out.print("$ ");
             String n = sc.nextLine();
+            String command = n;
+            String fileName = "";
+            String result = "";
 
             if (n.startsWith("exit")) {
                 break;
             }
 
-            else if (n.startsWith("echo ")) {
 
-                ArrayList<String> parts = parse(n);
+            if(n.contains("1>")) {
+                String parts[] = n.split("1>");
+                command = parts[0].trim();
+                fileName = parts[1].trim();
+            }
+                
+            else if(n.contains(">")) {
+                String parts[] = n.split(">");
+                command = parts[0].trim();
+                fileName = parts[1].trim();
+            }
+
+            if (command.startsWith("echo ")) {
+
+                ArrayList<String> parts = parse(command);
                 ArrayList<String> output = new ArrayList<>();
 
                 for (int i = 1; i < parts.size(); i++) {
                     output.add(parts.get(i));
                 }
 
-    System.out.println(String.join(" ", output));
-}
-            else if (n.equals("pwd")) {
-                System.out.println(currentDir);
+                result = String.join(" ", output);
+
+            }
+            else if (command.equals("pwd")) {
+                result = currentDir;
             }
 
-            else if (n.startsWith("cd ")) {
+            else if (command.startsWith("cd ")) {
    
-                String directory = n.substring(3);
+                String directory = command.substring(3);
                 
                 if(directory.startsWith("~")) {
                     currentDir = System.getenv("HOME");
@@ -123,10 +142,10 @@ public class Main {
 
             }
             
-            else if(n.startsWith("type ")) {
-                String command = n.substring(5);
-                if(builtins.contains(command)) {
-                    System.out.println(command + " is a shell builtin");
+            else if(command.startsWith("type ")) {
+                String command2 = command.substring(5);
+                if(builtins.contains(command2)) {
+                    result = command2 + " is a shell builtin";
                 }
                 else {
                     String path = System.getenv("PATH");
@@ -135,24 +154,40 @@ public class Main {
                     boolean found = false;
 
                     for(int i = 0; i < dirs.length; i++) {
-                        File user = new File(dirs[i], command);
+                        File user = new File(dirs[i], command2);
 
-                        if(user.exists() &&     user.canExecute()) {
-                            System.out.println(command + " is " + user.getAbsolutePath());
+                        if(user.exists() && user.canExecute()) {
+                            result = command2 + " is " + user.getAbsolutePath();
                             found = true;
                             break;
                         }
                     }
 
                     if(!found) {
-                        System.out.println(command + ": not found");
+                        result = command2 + ": not found";
                     }
                 }
             }
 
+            if (!result.isEmpty()) {
+
+                if (fileName.equals("")) {
+                System.out.println(result);
+            }
+
             else {
-                ArrayList<String> parts = parse(n);
-                String command = parts.get((0));
+                FileWriter fw = new FileWriter(fileName);
+                fw.write(result);
+                fw.close();
+            }
+        }
+
+            else if (!command.startsWith("cd ")){
+                ArrayList<String> parts = parse(command);
+                if (parts.isEmpty()) {
+                    continue;
+                }
+                String command3 = parts.get((0));
 
                 String path = System.getenv("PATH");
                 String[] dirs = path.split(":");
@@ -160,7 +195,7 @@ public class Main {
                 File executable = null;
 
                 for (int i = 0; i < dirs.length; i++) {
-                    File candidate = new File(dirs[i], command);
+                    File candidate = new File(dirs[i], command3);
 
                     if (candidate.exists() && candidate.canExecute()) {
                         executable = candidate;
@@ -169,21 +204,26 @@ public class Main {
                 }
                 if(executable != null) {
                     ArrayList<String> al = new ArrayList<>();
-                    al.add(command);
+                    al.add(command3);
 
                     for(int i = 1; i < parts.size(); i++) {
                         al.add(parts.get(i));
                     }
                     ProcessBuilder pb = new ProcessBuilder(al);
-                    pb.inheritIO();
-
+                    if(fileName.isEmpty()) {
+                        pb.inheritIO();
+                    }
+                    else {
+                        pb.redirectOutput(new File(fileName));
+                    }
+        
                     Process p = pb.start();
                     p.waitFor();
 
                 }
 
                 else {
-                    System.out.println(n + ": command not found");
+                    System.out.println(command + ": command not found");
                 }
             }
 
