@@ -180,6 +180,11 @@ public class Main {
 
             if (!result.isEmpty()) {
 
+                if(stderrRedirect) {
+                    System.out.println(result);
+                }
+                else {
+
                 if (fileName.equals("")) {
                 System.out.println(result);
             }
@@ -191,6 +196,7 @@ public class Main {
                 fw.close();
             }
         }
+    }
 
         if (!errorResult.isEmpty()) {
 
