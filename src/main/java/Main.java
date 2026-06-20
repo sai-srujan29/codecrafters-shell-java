@@ -77,30 +77,35 @@ public class Main {
             if (n.startsWith("exit")) {
                 break;
             }
+if (n.startsWith("exit")) {
+                break;
+            }
 
-            if (n.contains("2>")) {
+            // Check for 2>> BEFORE 2>
+            if(n.contains("2>>")) {
+                String parts[] = n.split("2>>");
+                command = parts[0].trim();
+                fileName = parts[1].trim(); 
+                stderrRedirect = true; 
+                appendRedirect = true;              
+            }
+            else if(n.contains("2>")) {
                 String parts[] = n.split("2>");
                 command = parts[0].trim();
-                fileName = parts[1].trim();
-                stderrRedirect = true;
-            } else if (n.contains("1>>")) { // <-- ADD THIS BLOCK
+                fileName = parts[1].trim(); 
+                stderrRedirect = true;               
+            }
+            else if(n.contains("1>>")) {
                 String parts[] = n.split("1>>");
                 command = parts[0].trim();
                 fileName = parts[1].trim();
                 appendRedirect = true;
-            } else if (n.contains(">>")) { // <-- ADD THIS BLOCK
+            }
+            else if(n.contains(">>")) { 
                 String parts[] = n.split(">>");
                 command = parts[0].trim();
                 fileName = parts[1].trim();
                 appendRedirect = true;
-            } else if (n.contains("1>")) {
-                String parts[] = n.split("1>");
-                command = parts[0].trim();
-                fileName = parts[1].trim();
-            } else if (n.contains(">")) {
-                String parts[] = n.split(">");
-                command = parts[0].trim();
-                fileName = parts[1].trim();
             }
 
             if (command.startsWith("echo ")) {
@@ -163,16 +168,18 @@ public class Main {
                 }
             }
 
-            if (!result.isEmpty()) {
 
-                if (stderrRedirect) {
+if (!result.isEmpty()) {
+                if(stderrRedirect) {
                     System.out.println(result);
-                } else {
-
+                }
+                else {
                     if (fileName.equals("")) {
                         System.out.println(result);
-                    } else {
-                        FileWriter fw = new FileWriter(fileName);
+                    }
+                    else {
+                        // Pass appendRedirect here!
+                        FileWriter fw = new FileWriter(fileName, appendRedirect);
                         fw.write(result);
                         fw.write(System.lineSeparator());
                         fw.close();
@@ -180,24 +187,17 @@ public class Main {
                 }
             }
 
-            if (!result.isEmpty()) {
-
+            if (!errorResult.isEmpty()) {
                 if (stderrRedirect) {
-                    System.out.println(result);
-                } else {
-                    if (fileName.equals("")) {
-                        System.out.println(result);
-                    }else {
-                
-                FileWriter fw = new FileWriter(fileName, appendRedirect);
-                fw.write(result);
-                fw.write(System.lineSeparator());
-                fw.close();
-            }
+                    // Pass appendRedirect here as well!
+                    FileWriter fw = new FileWriter(fileName, appendRedirect);
+                    fw.write(errorResult);
+                    fw.write(System.lineSeparator());
+                    fw.close();
+                } 
+                else {
+                  System.err.println(errorResult);
                 }
-            } else if (stderrRedirect && !fileName.isEmpty()) {
-                FileWriter fw = new FileWriter(fileName);
-                fw.close();
             }
 
             boolean isBuiltin = command.startsWith("echo ")
