@@ -209,19 +209,24 @@ public class Main {
         }
     }
 
-        if (!errorResult.isEmpty()) {
+if (!result.isEmpty()) {
 
-            if (stderrRedirect) {
-                FileWriter fw = new FileWriter(fileName);
-                fw.write(errorResult);
-                fw.write(System.lineSeparator());
-                fw.close();
-            } 
-            else {
-              System.err.println(errorResult);
+                if(stderrRedirect) {
+                    System.out.println(result);
+                }
+                else {
+                    if (fileName.equals("")) {
+                        System.out.println(result);
+                    }
+                    else {
+                        // Pass appendRedirect here!
+                        FileWriter fw = new FileWriter(fileName, appendRedirect);
+                        fw.write(result);
+                        fw.write(System.lineSeparator());
+                        fw.close();
+                    }
+                }
             }
-
-        }
         else if (stderrRedirect && !fileName.isEmpty()) {
             FileWriter fw = new FileWriter(fileName);
             fw.close();
