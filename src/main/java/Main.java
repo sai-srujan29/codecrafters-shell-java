@@ -239,7 +239,7 @@ public class Main {
                         pb.redirectError(new File(fileName));
                         pb.redirectOutput(ProcessBuilder.Redirect.INHERIT);
                     } else {
-                        // Check if we should append or overwrite
+                        
                         if (appendRedirect) {
                             pb.redirectOutput(ProcessBuilder.Redirect.appendTo(new File(fileName)));
                         } else {
