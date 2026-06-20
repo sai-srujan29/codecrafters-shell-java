@@ -77,11 +77,9 @@ public class Main {
             if (n.startsWith("exit")) {
                 break;
             }
-if (n.startsWith("exit")) {
-                break;
-            }
 
-            // Check for 2>> BEFORE 2>
+            
+         // Check operators in descending order of length
             if(n.contains("2>>")) {
                 String parts[] = n.split("2>>");
                 command = parts[0].trim();
@@ -107,7 +105,17 @@ if (n.startsWith("exit")) {
                 fileName = parts[1].trim();
                 appendRedirect = true;
             }
-
+            // Restore the missing overwrite operators!
+            else if(n.contains("1>")) {
+                String parts[] = n.split("1>");
+                command = parts[0].trim();
+                fileName = parts[1].trim();
+            }
+            else if(n.contains(">")) {
+                String parts[] = n.split(">");
+                command = parts[0].trim();
+                fileName = parts[1].trim();
+            }
             if (command.startsWith("echo ")) {
 
                 ArrayList<String> parts = parse(command);
