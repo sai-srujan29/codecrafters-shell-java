@@ -81,26 +81,37 @@ public class Main {
             String fileName = "";
             String result = "";
             boolean stderrRedirect = false;
+            boolean appendRedirect = false; // <-- ADD THIS
             String errorResult = "";
-
 
             if (n.startsWith("exit")) {
                 break;
             }
 
+    
             if(n.contains("2>")) {
                 String parts[] = n.split("2>");
                 command = parts[0].trim();
                 fileName = parts[1].trim(); 
                 stderrRedirect = true;               
             }
-
+            else if(n.contains("1>>")) { // <-- ADD THIS BLOCK
+                String parts[] = n.split("1>>");
+                command = parts[0].trim();
+                fileName = parts[1].trim();
+                appendRedirect = true;
+            }
+            else if(n.contains(">>")) { // <-- ADD THIS BLOCK
+                String parts[] = n.split(">>");
+                command = parts[0].trim();
+                fileName = parts[1].trim();
+                appendRedirect = true;
+            }
             else if(n.contains("1>")) {
                 String parts[] = n.split("1>");
                 command = parts[0].trim();
                 fileName = parts[1].trim();
             }
-                
             else if(n.contains(">")) {
                 String parts[] = n.split(">");
                 command = parts[0].trim();
